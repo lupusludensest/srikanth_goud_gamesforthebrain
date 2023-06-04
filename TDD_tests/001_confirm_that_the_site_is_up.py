@@ -9,15 +9,20 @@ from webdriver_manager.chrome import ChromeDriverManager
 driver = webdriver.Chrome()
 driver.maximize_window()
 options = webdriver.ChromeOptions()
-options.headless = False
+options.headless = True
 driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
 # Locators
 B_THREE = (By.XPATH, "//img[@name='space62']")
-C_FOUR_1 = (By.XPATH, "//img[@name='space53']")
-C_FOUR_2 = (By.XPATH, "//img[@onclick='didClick(5, 3)']")
+C_FOUR = (By.XPATH, "//img[@name='space53']")
 MAKE_A_MOVE = EC.visibility_of_element_located((By.XPATH, "//p[@id='message']"))
 D_FIVE = (By.XPATH, "//img[@name='space44']")
+D_THREE = (By.XPATH, "//img[@onclick='didClick(4, 2)']")
+B_FIVE = (By.XPATH, "//img[@name='space64']")
+F_THREE = (By.XPATH, "//img[@name='space22']")
+G_FOUR = (By.XPATH, "//img[@name='space13']")
+E_TWO = (By.XPATH, "//img[@name='space31']")
+F_THREE = (By.XPATH, "//img[@name='space22']")
 
 # Explicit wait
 wait = WebDriverWait(driver, 15)
@@ -25,9 +30,9 @@ wait = WebDriverWait(driver, 15)
 # 1. Open the url
 driver.get('https://www.gamesforthebrain.com/game/checkers/')
 # 1.1. Make a screenshot if 'options.headless = True' it fits the screen
-# driver.get_screenshot_as_file('site_is_up.png')
 S = lambda X: driver.execute_script('return document.body.parentNode.scroll' + X)
 driver.set_window_size(S('Width'),S('Height'))
+sleep(2)
 driver.find_element(By.TAG_NAME, 'body').screenshot('site_is_up.png')
 # 1.2. Verify the url 'https://www.gamesforthebrain.com/game/checkers/' is here
 expected_url = 'https://www.gamesforthebrain.com/game/checkers/'
@@ -39,11 +44,11 @@ else:
 
 # 2. Move one. Go B3 -> C4
 wait.until(EC.element_to_be_clickable(B_THREE)).click()
-wait.until(EC.element_to_be_clickable(C_FOUR_1)).click()
+wait.until(EC.element_to_be_clickable(C_FOUR)).click()
 # 2.1. Make a screenshot if 'options.headless = True' it fits the screen
-# driver.get_screenshot_as_file('move_one_b3_c4.png')
 S = lambda X: driver.execute_script('return document.body.parentNode.scroll' + X)
 driver.set_window_size(S('Width'),S('Height'))
+sleep(2)
 driver.find_element(By.TAG_NAME, 'body').screenshot('move_one_b3_c4.png')
 
 # 3. Verify "Make a move." is here
@@ -55,37 +60,97 @@ if make_a_move_expected_text in make_a_move_actual_text:
 else:
     print(f'Expected "{make_a_move_expected_text}", but got: "{make_a_move_actual_text}"\n')
 # 3.1. Make a screenshot if 'options.headless = True' it fits the screen
-# driver.get_screenshot_as_file('make_a_move.png')
 S = lambda X: driver.execute_script('return document.body.parentNode.scroll' + X)
 driver.set_window_size(S('Width'),S('Height'))
+sleep(2)
 driver.find_element(By.TAG_NAME, 'body').screenshot('make_a_move.png')
 
-
-# 4. Move two. Go C4 -> D5 # Your app does nog go beyond previous step.
-# wait.until(EC.element_to_be_clickable(C_FOUR_2)).click()
+# 4. Move two. Go C4 -> D5 # Your app does nog go beyond this step.
 menu = driver.find_element(By.XPATH, "//img[@onclick='didClick(5, 3)']")
 actions = ActionChains(driver)
 actions.move_to_element(menu)
 actions.click(menu)
+sleep(2)
 actions.perform()
-# wait.until(EC.element_to_be_clickable(D_FIVE)).click()
+
 menu = driver.find_element(By.XPATH, "//img[@name='space44']")
 actions = ActionChains(driver)
 actions.move_to_element(menu)
 actions.click(menu)
+sleep(2)
 actions.perform()
 
-# Driver close
-# driver.close()
+# 5. Move three. Go D3 -> B5. Taking a blue piece C4.
+menu = driver.find_element(By.XPATH, "//img[@onclick='didClick(4, 2)']")
+actions = ActionChains(driver)
+actions.move_to_element(menu)
+actions.click(menu)
+sleep(2)
+actions.perform()
 
-# # Sleep to see what we have
-sleep(300)
-# 60 sek is not enough. Your app is hanging up in status "Please wait."
-# if options.headless = False
-# for more 300 sek not responding on step 4.
-# Thus I do not have a valid reason and a base to automate your app.
+menu = driver.find_element(By.XPATH, "//img[@name='space64']")
+actions = ActionChains(driver)
+actions.move_to_element(menu)
+actions.click(menu)
+sleep(2)
+actions.perform()
+
+# 6. Move four. Go F3 -> G4.
+menu = driver.find_element(By.XPATH, "//img[@onclick='didClick(2, 2)']")
+actions = ActionChains(driver)
+actions.move_to_element(menu)
+actions.click(menu)
+sleep(2)
+actions.perform()
+
+menu = driver.find_element(By.XPATH, "//img[@name='space13']")
+actions = ActionChains(driver)
+actions.move_to_element(menu)
+actions.click(menu)
+sleep(2)
+actions.perform()
+
+# 7. Move five. Go E2 -> F3.
+menu = driver.find_element(By.XPATH, "//img[@name='space31']")
+actions = ActionChains(driver)
+actions.move_to_element(menu)
+actions.click(menu)
+sleep(2)
+actions.perform()
+
+menu = driver.find_element(By.XPATH, "//img[@name='space22']")
+actions = ActionChains(driver)
+actions.move_to_element(menu)
+actions.click(menu)
+sleep(2)
+actions.perform()
+# 7.1. Make a sessionId
+seven_step_session_id = driver.session_id
+print(f'seven_step_session_id: {seven_step_session_id}\n')
+
+# 8. Restart the game after five moves.
+driver.find_element(By.XPATH, "//a[text()='Restart...']").click()
+driver.refresh()
+
+# 9. Confirm that the restarting had been successful
+# 9.1. Make a sessionId
+nine_step_session_id = driver.session_id
+print(f'nine_step_session_id: {nine_step_session_id}\n')
+if seven_step_session_id == nine_step_session_id:
+    print(f'Still the same UID\n')
+# 9.2. Make a screenshot if 'options.headless = True' it fits the screen
+S = lambda X: driver.execute_script('return document.body.parentNode.scroll' + X)
+driver.set_window_size(S('Width'),S('Height'))
+sleep(2)
+driver.find_element(By.TAG_NAME, 'body').screenshot('fresh_screen_new_game.png')
+
+# Driver close
+driver.close()
+
+# Sleep to see what we have
+# sleep(300)
 # See demo: https://github.com/lupusludensest/18wheelerschool_06_apr_2023-what I can do in UI,
 # e2e automation with BDD, Selenium WD, Allure.
 
 # Driver quit
-# driver.quit()
+driver.quit()
