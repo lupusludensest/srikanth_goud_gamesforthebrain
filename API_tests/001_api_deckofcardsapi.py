@@ -51,8 +51,7 @@ print(f'"remaining": {r.json()["remaining"]}')
 # 4. Method draw a cards
 def draw_cards_for_players(deck_id):
     r = requests.get("https://deckofcardsapi.com/api/deck/" + deck_id + "/draw/?count=3")
-    print(f'\nDeal three cards to each of two players')
-    print(f'To player 1')
+    print(f'Deal three cards to each of two players')
     if r.status_code == 200:
         print(f'"success": true')
     print(f'"deck_id": "{deck_id}"')
@@ -89,6 +88,7 @@ def calculate_score_for_players(array_of_cards, total):
 
 # 6. Deal three cards to each of two players
 # 6.1. To player 1
+print(f'\nTo player 1')
 # 6.2. Count the score of player 1
 array_of_cards = draw_cards_for_players(deck_id)
 print(f'1th player.\n1th card: "{array_of_cards[0]["value"]}";\n2d card: "{array_of_cards[1]["value"]}";\n3d card: "{array_of_cards[2]["value"]}"')
@@ -99,11 +99,16 @@ calculate_score_for_players(array_of_cards, total_1)
 print(f'\nTo player 2')
 # 6.4. Count the score of player 1
 array_of_cards = draw_cards_for_players(deck_id)
-print(f'\n2d player.\n1th card: "{array_of_cards[0]["value"]}";\n2d card: "{array_of_cards[1]["value"]}";\n3d card: "{array_of_cards[2]["value"]}"')
+print(f'2d player.\n1th card: "{array_of_cards[0]["value"]}";\n2d card: "{array_of_cards[1]["value"]}";\n3d card: "{array_of_cards[2]["value"]}"')
 total_2 = []
 calculate_score_for_players(array_of_cards, total_2)
 
 # 7. Check whether either has a blackjack
+# https://ru.wikihow.com/%D0%B8%D0%B3%D1%80%D0%B0%D1%82%D1%8C-%D0%B2-%D0%B1%D0%BB%D1%8D%D0%BA%D0%B4%D0%B6%D0%B5%D0%BA
+# Карты с числом: цена — число на карте.
+# Картинки: цена всех — 10.
+# Туз: 1 или 11. Обычно считается за 11, но если при таком подсчете сумма очков в вашей руке превышает 21, то туз считается за 1.
+# Таким образом туз и картинка составляют 21 очка в две карты — это и есть блэкджек.
 if total_1[0] + total_1[1] == 21:
     print(f'\n1th player has a blackjack')
 
