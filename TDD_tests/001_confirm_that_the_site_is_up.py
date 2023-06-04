@@ -22,7 +22,6 @@ B_FIVE = (By.XPATH, "//img[@name='space64']")
 F_THREE = (By.XPATH, "//img[@name='space22']")
 G_FOUR = (By.XPATH, "//img[@name='space13']")
 E_TWO = (By.XPATH, "//img[@name='space31']")
-F_THREE = (By.XPATH, "//img[@name='space22']")
 
 # Explicit wait
 wait = WebDriverWait(driver, 15)
@@ -41,12 +40,14 @@ if expected_url in actual_url:
     print(f'Expected "{expected_url}", and got: "{actual_url}"\n')
 else:
     print(f'Expected "{expected_url}", but got: "{actual_url}"\n')
+# 1.1. Make a sessionId to verify the session is opened
+one_step_session_id = driver.session_id
+print(f'one_step_session_id: {one_step_session_id} is opened\n')
 
 # 2. Move one. Go B3 -> C4
 wait.until(EC.element_to_be_clickable(B_THREE)).click()
 wait.until(EC.element_to_be_clickable(C_FOUR)).click()
 # 2.1. Make a screenshot if 'options.headless = True' it fits the screen
-S = lambda X: driver.execute_script('return document.body.parentNode.scroll' + X)
 driver.set_window_size(S('Width'),S('Height'))
 sleep(2)
 driver.find_element(By.TAG_NAME, 'body').screenshot('move_one_b3_c4.png')
@@ -60,7 +61,6 @@ if make_a_move_expected_text in make_a_move_actual_text:
 else:
     print(f'Expected "{make_a_move_expected_text}", but got: "{make_a_move_actual_text}"\n')
 # 3.1. Make a screenshot if 'options.headless = True' it fits the screen
-S = lambda X: driver.execute_script('return document.body.parentNode.scroll' + X)
 driver.set_window_size(S('Width'),S('Height'))
 sleep(2)
 driver.find_element(By.TAG_NAME, 'body').screenshot('make_a_move.png')
@@ -136,10 +136,9 @@ driver.refresh()
 # 9.1. Make a sessionId
 nine_step_session_id = driver.session_id
 print(f'nine_step_session_id: {nine_step_session_id}\n')
-if seven_step_session_id == nine_step_session_id:
-    print(f'Still the same UID\n')
+if one_step_session_id == seven_step_session_id == nine_step_session_id:
+    print(f'Still the same session_id\n')
 # 9.2. Make a screenshot if 'options.headless = True' it fits the screen
-S = lambda X: driver.execute_script('return document.body.parentNode.scroll' + X)
 driver.set_window_size(S('Width'),S('Height'))
 sleep(2)
 driver.find_element(By.TAG_NAME, 'body').screenshot('fresh_screen_new_game.png')
