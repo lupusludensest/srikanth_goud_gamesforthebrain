@@ -9,7 +9,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 driver = webdriver.Chrome()
 driver.maximize_window()
 options = webdriver.ChromeOptions()
-options.headless = True
+options.headless = False
 driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
 # Locators
@@ -76,10 +76,10 @@ actions.click(menu)
 actions.perform()
 
 # Driver close
-driver.close()
+# driver.close()
 
 # # Sleep to see what we have
-# sleep(300)
+sleep(300)
 # 60 sek is not enough. Your app is hanging up in status "Please wait."
 # if options.headless = False
 # for more 300 sek not responding on step 4.
@@ -88,4 +88,4 @@ driver.close()
 # e2e automation with BDD, Selenium WD, Allure.
 
 # Driver quit
-driver.quit()
+# driver.quit()
