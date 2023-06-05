@@ -24,18 +24,9 @@ driver.find_element(By.TAG_NAME, 'body').screenshot('site_is_up.png')
 expected_url = 'https://deckofcardsapi.com/'
 actual_url = driver.current_url
 if expected_url in actual_url:
-    print(f'Expected "{expected_url}", and got: "{actual_url}"\n')
+    print(f'Valid. Expected == Actual\n')
 else:
-    print(f'Expected "{expected_url}", but got: "{actual_url}"\n')
-
-# 2. Get a new deck
-r=requests.get('https://deckofcardsapi.com/api/deck/new/')
-print(f'Get a new deck')
-if r.status_code == 200:
-    print(f'"success": true')
-print(f'"deck_id": "{r.json()["deck_id"]}"')
-print(f'"shuffled": {(r.json()["shuffled"])}')
-print(f'"remaining": {r.json()["remaining"]}')
+    print(f'Alert. Expected != Actual\n')
 
 # 3. Shuffle the deck
 r=requests.get('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
@@ -108,11 +99,12 @@ calculate_score_for_players(array_of_cards, total_2)
 # Картинки: цена всех — 10.
 # Туз: 1 или 11. Обычно считается за 11, но если при таком подсчете сумма очков в вашей руке превышает 21, то туз считается за 1.
 # Таким образом туз и картинка составляют 21 очка в две карты — это и есть блэкджек.
-if total_1[0] + total_1[1] == 21:
+if (total_1[0] + total_1[1] + total_1[2]) == 21 or (total_1[0] + total_1[1]) == 21:
     print(f'\n1th player has a blackjack')
 
-if total_2[0] + total_2[1] == 21:
+if (total_2[0] + total_2[1] + total_2[2]) == 21 or (total_2[0] + total_2[1]) == 21:
     print(f'\n2d player has a blackjack')
+
 
 
 
