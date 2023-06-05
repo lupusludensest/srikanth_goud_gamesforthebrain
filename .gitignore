@@ -1,3 +1,6 @@
+# ignore all logs
+*.log
+.pytest_cache
 site_is_up.png
 fresh_screen_new_game.png
 make_a_move.png
