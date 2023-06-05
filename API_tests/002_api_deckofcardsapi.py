@@ -1,9 +1,9 @@
 import requests
 
 # Define Constants
-NUMBER_OF_CARDS = 3
-NUMBER_OF_PLAYERS = 2
-NUMBER_OF_DECKS = 1
+NUMBER_OF_CARDS = int(input('ENTER NUMBER OF CARDS: '))
+NUMBER_OF_PLAYERS = int(input('ENTER NUMBER OF PLAYERS: '))
+NUMBER_OF_DECKS = int(input('ENTER NUMBER OF DECKS: '))
 CARDS_VALUE_10 = ['JACK', 'QUEEN', 'KING']
 
 # Define class for scores
@@ -66,7 +66,8 @@ for x in range(NUMBER_OF_PLAYERS):
 # https://ru.wikihow.com/%D0%B8%D0%B3%D1%80%D0%B0%D1%82%D1%8C-%D0%B2-%D0%B1%D0%BB%D1%8D%D0%BA%D0%B4%D0%B6%D0%B5%D0%BA
 # Карты с числом: цена — число на карте.
 # Картинки: цена всех — 10.
-# Туз: 1 или 11. Обычно считается за 11, но если при таком подсчете сумма очков в вашей руке превышает 21, то туз считается за 1.
+# Туз: 1 или 11. Обычно считается за 11, но если при таком подсчете сумма очков в вашей руке превышает 21,
+# то туз считается за 1.
 # Таким образом туз и картинка составляют 21 очка в две карты — это и есть блэкджек.
 
 print(f'\nChecking if somebody has a Black Jack...')
