@@ -24,7 +24,7 @@ print(f'\nShuffle the deck')
 if r.status_code == 200:
     print(f'"success": true')
 deck_id = r.json()["deck_id"]
-print(f'"deck_id": "{r.json()["deck_id"]}"')
+print(f'"deck_id": "{deck_id}"')
 print(f'"shuffled": {(r.json()["shuffled"])}')
 print(f'"remaining": {r.json()["remaining"]}')
 
